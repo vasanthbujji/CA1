@@ -4,7 +4,7 @@ student_data <- data.frame(
   with_visual_aids = c(58, 70, 60, 73, 40, 63, 54, 60, 29, 57, 66, 37, 50, 48, 80, 65, 70)
 )
 
-# Inspecting the structure of the data frame
+# structure of the data frame
 str(student_data)
 
 # Creating a boxplot comparing scores with and without visual aids
@@ -25,6 +25,7 @@ library(e1071)
 score_diff <- student_data$with_visual_aids - student_data$no_visual_aids
 
 # Plotting QQ plot for score differences
+windows(20,12)
 qqnorm(score_diff, main = "QQ Plot for Score Differences")
 qqline(score_diff, col = "blue")
 

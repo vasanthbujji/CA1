@@ -8,6 +8,7 @@ student_data <- data.frame(
 str(student_data)
 
 # Creating a boxplot comparing scores with and without visual aids
+windows(20,12)
 boxplot(
   student_data$no_visual_aids, student_data$with_visual_aids,
   names = c("No Visual Aids", "With Visual Aids"),
@@ -16,13 +17,30 @@ boxplot(
   col = c("blue", "red")
 )
 
-#score differences between the two conditions
+# Installing and loading the e1071 Library 
+install.packages("e1071")
+library(e1071)
+
+# Calculating the score differences between scores with and without visual aids
 score_diff <- student_data$with_visual_aids - student_data$no_visual_aids
-score_diff
-st1<-shapiro.test(student_data$no_visual_aids)
-st1
-st2<-shapiro.test(student_data$with_visual_aids)
-st2
+
+# Plotting QQ plot for score differences
+qqnorm(score_diff, main = "QQ Plot for Score Differences")
+qqline(score_diff, col = "blue")
+
+# By using  histogram we can visualize the distribution of score differences
+windows(20,12)
+hist(score_diff, breaks = 15, col = "green", border = "black", 
+     main = "Histogram of Score Differences",
+     xlab = "Score Differences")
+
+# Perform Shapiro-Wilk test for normality on score differences
+shapiro_test_diff <- shapiro.test(score_diff)
+shapiro_test_diff  # Output of the Shapiro-Wilk test
+
+# Summary statistics for score differences
+summary(score_diff)
+
 # Combining scores from both groups into one vector
 all_scores <- c(student_data$no_visual_aids, student_data$with_visual_aids)
 all_scores
@@ -35,11 +53,6 @@ mean_all_scores <- mean(all_scores)
 mean_all_scores  # The mean of all scores
 median_all_scores <- median(all_scores)
 median_all_scores  # The median of all scores
-
-
-# Installing and loading the e1071 package 
-install.packages("e1071")
-library(e1071)
 
 # Calculating the skewness of the combined scores
 skewness_all_scores <- skewness(all_scores)
@@ -58,3 +71,4 @@ std_with_visual_aids
 # Performing a paired t-test comparing the two conditions
 paired_t_test <- t.test(student_data$no_visual_aids, student_data$with_visual_aids, paired = TRUE)
 paired_t_test  # Output of the t-test
+
